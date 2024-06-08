@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dart_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: multisighelper
+    environment:
+      - TGBOTTOKEN=${TGBOTTOKEN}
+      - REDEEMSCRIPT=${REDEEMSCRIPT}
+    command: /home/helperbot/bin/multisighelper

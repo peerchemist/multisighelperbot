@@ -1,0 +1,14 @@
+name: multisig_helper
+description: A Peercoin multisig helper bot.
+version: 1.0.0
+repository: https://github.com/peerchemist/multisig_helper_bot/
+
+environment:
+  sdk: ^3.2.0
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.24.0
+dependencies:
+  coinlib: ^2.1.0-rc.1
+  dio: ^5.4.0
+  televerse: ^1.16.0

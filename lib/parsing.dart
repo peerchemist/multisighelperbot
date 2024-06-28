@@ -24,7 +24,15 @@ Map<String, Object> parseMsg(String msg) {
       }
     }
     if (isNumeric(i)) {
-      resp['parsedAmount'] = i;
+      try {
+        resp['parsedAmount'] = i;
+      } on BadAmountString catch (e) {
+        print('Bad amount string: $e');
+        resp['parsedAmount'] = "";
+      } catch (e) {
+        print('Unexpected error: $e');
+        resp['parsedAmount'] = "";
+      }
     }
   }
   return resp;

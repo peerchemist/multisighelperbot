@@ -4,9 +4,17 @@ bool isNumeric(n) {
   return double.tryParse(n) != null && n != null;
 }
 
+List<String> filterMessage(List<String> message) {
+  return message.where((item) => item.trim().isNotEmpty).toList();
+}
+
 Map<String, Object> parseMsg(String msg) {
+  var message = msg.split(RegExp(r'\s+')).skip(1).toList();
+  var filteredMessage = filterMessage(message);
+
   var resp = {'parsedAddress': "", 'parsedAmount': ""};
-  for (var i in msg.split(" ")) {
+
+  for (var i in filteredMessage) {
     if (i.startsWith("p") || i.startsWith('P') || i.startsWith('pc')) {
       // try to parse the address
       try {
@@ -35,5 +43,8 @@ Map<String, Object> parseMsg(String msg) {
       }
     }
   }
+
+  print(resp);
+
   return resp;
 }

@@ -3,6 +3,7 @@ import 'package:multisig_helper/parsing.dart';
 import 'package:televerse/televerse.dart';
 import "package:coinlib/coinlib.dart";
 import 'dart:io';
+import 'dart:developer';
 
 void main() async {
   await loadCoinlib();
@@ -38,4 +39,12 @@ void main() async {
 
   /// Starts the bot
   bot.start();
+
+  bot.onError((err) {
+    log(
+      "Something went wrong: $err",
+      error: err.error,
+      stackTrace: err.stackTrace,
+    );
+  });
 }

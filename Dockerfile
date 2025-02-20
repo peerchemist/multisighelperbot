@@ -11,10 +11,14 @@ COPY . .
 RUN dart pub get --offline
 RUN dart compile exe bin/multisighelper.dart -o bin/multisighelper
 
+# Stage 2: Create the final lightweight image
 FROM debian:bookworm-slim
 RUN useradd -m -U -s /usr/sbin/nologin helperbot
+
+# Copy the compiled application
 COPY --from=build /src/build/libsecp256k1.so /home/helperbot/bin/
-COPY --from=build /src/bin/musighelperbot.app /home/helperbot/bin/
+COPY --from=build /src/bin/multisighelper /home/helperbot/bin/
 RUN chown -R helperbot:helperbot /home/helperbot
+
 USER helperbot
-CMD ["/home/helperbot/bin/musighelperbot.app"]
+CMD ["/home/helperbot/bin/musighelperbot"]

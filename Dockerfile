@@ -21,4 +21,4 @@ COPY --from=build /src/bin/multisighelper /home/helperbot/bin/
 RUN chown -R helperbot:helperbot /home/helperbot
 
 USER helperbot
-CMD ["/home/helperbot/bin/musighelperbot"]
+CMD ["/home/helperbot/bin/multisighelper"]

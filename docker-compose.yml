@@ -9,5 +9,5 @@ services:
     environment:
       - TGBOTTOKEN=${TGBOTTOKEN}
       - REDEEMSCRIPT=${REDEEMSCRIPT}
-    command: sh -c "timeout 28800 /home/helperbot/bin/multisighelper""
+    command: sh -c "timeout 28800 /home/helperbot/bin/multisighelper"
     restart: always

@@ -9,6 +9,19 @@ List<String> filterMessage(List<String> message) {
 }
 
 Map<String, Object> parseMsg(String msg) {
+  if (msg.contains("Event: WPPCBurned")) {
+    var resp = {'parsedAddress': "", 'parsedAmount': ""};
+    var addressMatch = RegExp(r'externalAddress:\s*([a-zA-Z0-9]+)').firstMatch(msg);
+    if (addressMatch != null) {
+      resp['parsedAddress'] = addressMatch.group(1) ?? "";
+    }
+    var tokensMatch = RegExp(r'tokens:\s*([\d\.]+)').firstMatch(msg);
+    if (tokensMatch != null) {
+      resp['parsedAmount'] = tokensMatch.group(1) ?? "";
+    }
+    return resp;
+  }
+
   var message = msg.split(RegExp(r'\s+')).skip(1).toList();
   var filteredMessage = filterMessage(message);
 

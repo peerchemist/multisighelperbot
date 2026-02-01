@@ -14,9 +14,10 @@ RUN dart compile exe bin/multisighelper.dart -o bin/multisighelper
 
 # Stage 2: Build libsecp256k1 v0.5.0 from Archive
 FROM debian:bookworm-slim AS libbuild
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     autoconf \
+    automake \
     libtool \
     pkg-config \
     ca-certificates \
@@ -40,7 +41,13 @@ RUN useradd -m -U -s /usr/sbin/nologin helperbot
 COPY --from=build /src/bin/multisighelper /home/helperbot/bin/
 
 # Copy the compiled libsecp256k1 shared library from the libbuild stage
-COPY --from=libbuild /usr/local/lib/libsecp256k1.so /home/helperbot/bin/
+COPY --from=libbuild /usr/local/lib/libsecp256k1.so* /usr/local/lib/
+RUN if [ ! -e /usr/local/lib/libsecp256k1.so ]; then \
+      target=$(ls -1 /usr/local/lib/libsecp256k1.so.* | head -n1) && \
+      ln -s "$target" /usr/local/lib/libsecp256k1.so; \
+    fi && \
+    ldconfig
+ENV LD_LIBRARY_PATH=/usr/local/lib
 
 # Ensure helperbot owns its files.
 RUN chown -R helperbot:helperbot /home/helperbot
